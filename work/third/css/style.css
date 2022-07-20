@@ -19,18 +19,19 @@
   color: #fff;
   text-align: center;
   border-left: 1px #fff solid;
-  background-color: #ccc;
   box-sizing: border-box;
   cursor: pointer;
 }
 .nav > li:first-child {
   border-left: none;
 }
+.nav > li:last-child {
+  color: #000;
+}
 .is-hidden {
   display: none;
 }
 .contents {
-  padding: 30px;
   margin: 0 auto;
   width: 100%;
   max-width: 600px;
@@ -38,4 +39,19 @@
   border-top: none;
   background-color: #fff;
   box-sizing: border-box;
+}
+.contents > li {
+  padding: 30px;
+}
+.contents > li:nth-child(2) {
+  color: #fff;
+}
+.is-red {
+  background-color: #ff0000;
+}
+.is-brue {
+  background-color: #0000ff;
+}
+.is-yellow {
+  background-color: #ffff00;
 }
