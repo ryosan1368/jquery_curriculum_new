@@ -39,19 +39,20 @@
   border-top: none;
   background-color: #fff;
   box-sizing: border-box;
+  color: #fff;
 }
 .contents > li {
   padding: 30px;
 }
-.contents > li:nth-child(2) {
-  color: #fff;
+.contents > li:last-child {
+  color: #333;
 }
 .is-red {
-  background-color: #ff0000;
+  background-color: #ffa2b5;
 }
 .is-brue {
-  background-color: #0000ff;
+  background-color: #7dcec5;
 }
 .is-yellow {
-  background-color: #ffff00;
+  background-color: #ffe45f;
 }
