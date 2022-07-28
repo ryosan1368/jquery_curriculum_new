@@ -47,10 +47,10 @@
 .contents > li:last-child {
   color: #333;
 }
-.is-red {
+.is-pink {
   background-color: #ffa2b5;
 }
-.is-brue {
+.is-green {
   background-color: #7dcec5;
 }
 .is-yellow {
