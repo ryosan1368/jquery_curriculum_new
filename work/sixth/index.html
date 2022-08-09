@@ -10,28 +10,12 @@
   <title>Document</title>
 </head>
 <body>
-  <div class="a">ボタン</div>
-  <div class="b"></div>
+  <div class="wrapper" id="wrapper">
+    <button type="button" class="btn search-btn" id="pokemonn_search">ポケモンを探す</button>
+  </div>
   <script src="../../common/js/jquery.js"></script>
   <script>
-    $(function() {
-      $('.a').on('click', function() {
-        $.ajax({
-          url: 'https://pokeapi.co/api/v2/pokemon/1',
-          method: 'GET',
-        }).done(function(data) {
-          console.log(data);
-          $('.b').append('<img src="' + data.sprites.back_default + '">')
-          $('.b').append('<img src="' + data.sprites.back_shiny + '">')
-          $('.b').append('<img src="' + data.sprites.front_default + '">')
-          $('.b').append('<img src="' + data.sprites.front_shiny + '">')
-          $('.b').append('<img src="' + data.sprites.other.dream_world.front_default + '">')
-          $('.b').append('<img src="' + data.sprites.other.home.front_default + '">')
-          $('.b').append('<img src="' + data.sprites.other.home.front_shiny + '">')
-          $('.b').append('<img src="' + data.sprites.other['official-artwork'].front_default + '">')
-        });
-      });
-    });
+    // 回答はここに書いてね
   </script>
 </body>
 </html>
