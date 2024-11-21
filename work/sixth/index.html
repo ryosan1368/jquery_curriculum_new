@@ -15,7 +15,108 @@
   </div>
   <script src="../../common/js/jquery.js"></script>
   <script>
-    // 回答はここに書いてね
+    $(function() {
+      //初期画面を変数indexHtmlに定義
+      let indexHtml = $('#wrapper').html();
+
+      //他３画面も定義
+      let encountHtml =
+      `
+        <p class="name"></p>
+        <div>
+          <img class="img" src="" alt="">
+        </div>
+        <div>
+          <button class="btn" id="catch">捕まえる</button>
+          <button class="btn" data-js="reset">逃げる</button>
+        </div>
+      `
+
+      let failHtml =
+      `
+        <p class="text">逃げられてしまった...</p>
+        <button class="btn mt" data-js="reset">戻る</button>
+      `
+
+      let doneHtml =
+      `
+        <p class="name">ゲットしました</p>
+        <div>
+          <img class="img" src="" alt="">
+        </div>
+        <button class="btn" data-js="reset">戻る</button>
+      `
+
+      //モンスターボール画像の取得
+      function ballImage() {
+        $.ajax({
+          url: 'https://pokeapi.co/api/v2/item/4',
+          method: 'GET'
+        }).done(function(res) {
+          $('.img').attr('src', res.sprites.default);
+        }).fail(function(err) {
+          console.log('ボール画像取得失敗');
+        });
+      }
+
+      //ポケモンの情報の取得
+      function pokemonData() {
+        let pokemonId = Math.floor(Math.random() * 151) + 1;
+
+        $.ajax({
+          url: `https://pokeapi.co/api/v2/pokemon/${pokemonId}`,
+          method: 'GET'
+        }).done(function(res) {
+          $('.img').attr('src', res.sprites.front_default);
+
+          $.ajax({
+            url: `https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`,
+            method: 'GET'
+          }).done(function(res) {
+            let getPokeName = res.names.find(name => name.language.name === 'ja').name;
+            $('.name').text(getPokeName);
+          }).fail(function(err) {
+            console.log('日本語名の取得失敗');
+          });
+        }).fail(function(err) {
+          console.log('ポケモンの情報取得失敗');
+        });
+      }
+
+      //wrapperの要素を一度空にしてから別要素を追加する処理を定義
+      function changeHtml(setHtml) {
+        $('#wrapper').empty().append(setHtml);
+      };
+
+      //探す～捕まえる判定までを関数として定義
+      function process() {
+        $('#pokemon_search').click(function() {
+        changeHtml(encountHtml);
+        pokemonData();
+
+          $('#catch').click(function() {
+            let luck = Math.floor(Math.random() * 100) + 1;
+
+            if(luck >= 50) {
+              changeHtml(doneHtml);
+              ballImage();
+            } else {
+              changeHtml(failHtml);
+            }
+          });
+        });
+      };
+
+      //戻る・逃げるボタン押下時のイベントを設定
+      //イベントが起きている要素に対し、クリック時のデータ属性がdata-js=resetの場合、初期表示htmlとその後の探す～捕まえる判定までの処理を呼び出す
+      $(this).on('click', '[data-js=reset]', function() {
+        changeHtml(indexHtml);
+        process();
+      });
+
+      //探す～捕まえる判定までの関数を呼び出して実行（これが最初に実行される処理）
+      process();
+    });
   </script>
 </body>
 </html>
