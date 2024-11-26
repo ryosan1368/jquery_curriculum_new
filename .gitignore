@@ -1,1 +1,12 @@
 appid.js
+
+#履歴のディレクトリを無視
+.history/
+
+#その他追跡不要なファイルとディレクトリ
+common/
+css/
+img/
+work/first/
+work/second/
+work/third/

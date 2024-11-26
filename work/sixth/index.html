@@ -15,7 +15,99 @@
   </div>
   <script src="../../common/js/jquery.js"></script>
   <script>
-    // 回答はここに書いてね
+    $(function() {
+      let indexHtml = $('#wrapper').html();
+
+      let encountHtml =
+      `
+        <p class="name"></p>
+        <div>
+          <img class="img" src="" alt="">
+        </div>
+        <div>
+          <button class="btn" id="catch">捕まえる</button>
+          <button class="btn" data-js="reset">逃げる</button>
+        </div>
+      `
+
+      let failHtml =
+      `
+        <p class="text">逃げられてしまった...</p>
+        <button class="btn mt" data-js="reset">戻る</button>
+      `
+
+      let doneHtml =
+      `
+        <p class="name">ゲットしました</p>
+        <div>
+          <img class="img" src="" alt="">
+        </div>
+        <button class="btn" data-js="reset">戻る</button>
+      `
+
+      function getBallImage() {
+        $.ajax({
+          url: 'https://pokeapi.co/api/v2/item/4',
+          method: 'GET'
+        }).done(function(res) {
+          $('.img').attr('src', res.sprites.default);
+        }).fail(function(err) {
+          console.log('ボール画像取得失敗');
+        });
+      }
+
+      function getPokemonData() {
+        let pokemonId = Math.floor(Math.random() * 151) + 1;
+
+        $.ajax({
+          url: `https://pokeapi.co/api/v2/pokemon/${pokemonId}`,
+          method: 'GET'
+        }).done(function(res) {
+          $('.img').attr('src', res.sprites.front_default);
+
+          $.ajax({
+            url: `https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`,
+            method: 'GET'
+          }).done(function(res) {
+            let getPokeName = res.names.find(name => name.language.name === 'ja').name;
+            $('.name').text(getPokeName);
+          }).fail(function(err) {
+            console.log('日本語名の取得失敗');
+          });
+        }).fail(function(err) {
+          console.log('ポケモンの情報取得失敗');
+        });
+      }
+
+      function changeHtml(setHtml) {
+        $('#wrapper').empty().append(setHtml);
+      };
+
+      function getPokeProcess() {
+        $('#pokemon_search').click(function() {
+        changeHtml(encountHtml);
+        getPokemonData();
+
+          $('#catch').click(function() {
+            let luck = Math.floor(Math.random() * 100) + 1;
+
+            if(luck >= 50) {
+              changeHtml(doneHtml);
+              getBallImage();
+            } else {
+              changeHtml(failHtml);
+            }
+          });
+        });
+      };
+
+      $(this).on('click', '[data-js=reset]', function() {
+        changeHtml(indexHtml);
+        getPokeProcess();
+      });
+
+      getPokeProcess();
+    });
   </script>
 </body>
 </html>
